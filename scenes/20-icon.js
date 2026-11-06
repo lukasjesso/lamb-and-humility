@@ -66,23 +66,38 @@ ${hist}
     kit.media(el, {
       full() {
         // ---- plan, in screens ----
-        const B1 = 0.9, LC = 0.72, SLOT = 0.34, HOLD = 0.15, GF = 0.12, DD = 0.55, DQ = 0.68, HY = 0.3, LEAD = 0.2, NAMES = 0.9, QH = 0.4;
-        const quoteDet = i => /[“"]/.test(I.details[i].caption), dDur = i => quoteDet(i) ? DQ : DD;
+        // Lines (history, hymn) come in over R and the one before dims only LAG after the next arrives (as in the connections),
+        // so a line is full-bright for its cadence + LAG - R. A group's last line is full-bright FB (FQ with a quotation) + chars/2400.
+        const B1 = 0.85, LC = 0.65, R = 0.12, LAG = 0.3, GF = 0.12, LW = 0.22, QW = 0.3, FB = 0.33, FQ = 0.45;
+        const DD = 0.56, DQ = 0.68, HY = 0.3, LEAD = 0.2, NAMES = 0.9;
+        const isQ = s => /[“"]/.test(s);
+        const quoteDet = i => isQ(I.details[i].caption), dDur = i => quoteDet(i) ? DQ : DD;
         const calls = qa('.ic-p-call'), hists = qa('.ic-p-hist'), dets = qa('.ic-p-detail'), figs = qa('.ic-fig');
         const open = q('.ic-p-open'), hymn = q('.ic-p-hymn'), names = q('.ic-names');
         const cardW = qa('.ic-cardwrap'), vr = q('.ic-vrule');
         const cs = calls.map((_, i) => B1 + i * LC), back = B1 + calls.length * LC;
-        let t = back + 0.15; const gs = [];
-        const holdOf = g => /[“"]/.test(g.lastElementChild.textContent) ? QH : HOLD;
-        hists.forEach(g => { gs.push(t); t += (+g.dataset.n) * SLOT + holdOf(g) + GF; });
+        let t = back + 0.15; const gs = [], ge = [], lineAt = []; // group in, group out, each history line's arrival
+        hists.forEach(g => {
+          const a = +g.dataset.start, n = +g.dataset.n; gs.push(t);
+          for (let i = a; i < a + n; i++) {
+            const s = I.history[i].line, c = s.length / 2400; lineAt[i] = t;
+            t += i < a + n - 1 ? (isQ(s) ? QW : LW) + c : R + (isQ(s) ? FQ : FB) + c;
+          }
+          ge.push(t); t += GF;
+        });
         const dStart = dets.map((_, i) => dets.slice(0, i).reduce((a, _x, j) => a + dDur(j), 0));
         const ns = t, ds = ns + NAMES, dEnd = ds + LEAD + dets.reduce((a, _x, j) => a + dDur(j), 0);
-        const hy = dEnd, H0 = hy + 0.5, TOTAL = H0 + HY * I.hymn.lines.length + 0.1 + 0.15 + 0.25 + 0.3, T = s => Math.min(1, s / TOTAL), D = s => s / TOTAL;
+        const hy = dEnd, H0 = hy + 0.45, HC = H0 + HY * I.hymn.lines.length; // the cite comes HY after the last hymn line
+        const TOTAL = HC + 0.15 + 0.35 + 0.3, T = s => Math.min(1, s / TOTAL), D = s => s / TOTAL;
         const tl = kit.pin(el, { screens: Math.round(TOTAL * 10) / 10 });
         const ft = (target, from, to, at, dur) => tl.fromTo(target, from, Object.assign({ duration: D(dur), immediateRender: false }, to), T(at));
         const iconOp = (a, b, at, dur) => ft(wrap, { opacity: a }, { opacity: b }, at, dur);
         const panelIn = (p, at) => tl.fromTo(p, { autoAlpha: 0 }, { autoAlpha: 1, duration: D(0.05) }, T(at));
         const panelOut = (p, at, dur = GF) => kit.fade(tl, p, { at: T(at), dur: D(dur) });
+        const lines = (els, at, dim) => els.forEach((n, i) => {
+          tl.fromTo(n, { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: D(R) }, T(at[i]));
+          if (i) tl.to(els[i - 1], { opacity: dim, duration: D(0.12) }, T(at[i] + LAG));
+        });
 
         render(FULL);
         qa('.ic-fig img, .ic-thumb img').forEach(im => kit.frame(im, FULL));
@@ -90,7 +105,7 @@ ${hist}
         // Beat 1: opening
         tl.fromTo(wrap, { opacity: 0 }, { opacity: 1, duration: D(0.35) }, 0); // quick enough that the lamb->icon boundary does not empty the sky
         kit.grow(tl, slot, { from: 0.88, to: 1, at: 0, dur: D(B1) });
-        kit.reveal(tl, open, { at: 0, dur: D(0.55), y: 18 });
+        kit.reveal(tl, open, { at: 0, dur: D(0.35), y: 18 }); // the facts are full-bright from 0.33 to the fade at B1 - 0.18
         panelOut(open, B1 - 0.18, 0.18); // gone before the first callout's text arrives (same column)
 
         // Beat 2: reading the icon
@@ -100,26 +115,25 @@ ${hist}
           const c = cs[i];
           zoom(crops[i], crops[i + 1], c, 0.4);
           if (i) panelOut(calls[i - 1], c, 0.12);
-          panelIn(p, c + 0.13);
-          kit.reveal(tl, p, { at: T(c + 0.13), dur: D(0.32), y: 16 });
+          panelIn(p, c + 0.12);
+          kit.reveal(tl, p, { at: T(c + 0.12), dur: D(0.2), y: 16 }); // all four lines up by c + 0.31: full-bright LC - 0.31
         });
         panelOut(calls[calls.length - 1], back, 0.12);
         zoom(crops[crops.length - 1], FULL, back, 0.45);
 
         // Beat 3: history, groups of at most 3, figures take the icon's place
         iconOp(1, 0.55, back, 0.4);
-        const figAt = f => { const i = +f.dataset.line; const gi = hists.findIndex(g => i >= +g.dataset.start && i < +g.dataset.start + +g.dataset.n); return { gi, at: gs[gi] + (i - +hists[gi].dataset.start) * SLOT }; };
+        const figAt = f => { const i = +f.dataset.line; const gi = hists.findIndex(g => i >= +g.dataset.start && i < +g.dataset.start + +g.dataset.n); return { gi, at: lineAt[i] }; };
         hists.forEach((g, gi) => {
-          const n = +g.dataset.n, s = gs[gi], e = s + n * SLOT + holdOf(g);
-          panelIn(g, s);
-          kit.reveal(tl, g, { at: T(s), dur: D(n * SLOT), dim: 0.5, y: 16 });
-          panelOut(g, e);
+          const a = +g.dataset.start, ls = Array.from(g.querySelectorAll('.ic-line'));
+          panelIn(g, gs[gi]);
+          lines(ls, ls.map((_, k) => lineAt[a + k]), 0.5);
+          panelOut(g, ge[gi]);
         });
         let lastDim = 0.55;
         figs.forEach((f, fi) => {
-          const { gi, at } = figAt(f), g = hists[gi];
-          const gEnd = gs[gi] + (+g.dataset.n) * SLOT + holdOf(g), nx = figs[fi + 1] && figAt(figs[fi + 1]);
-          const out = nx && nx.gi === gi ? nx.at : gEnd;
+          const { gi, at } = figAt(f), nx = figs[fi + 1] && figAt(figs[fi + 1]);
+          const out = nx && nx.gi === gi ? nx.at : ge[gi];
           kit.fadeIn(tl, f, { at: T(at), dur: D(0.15), y: 10 });
           kit.fade(tl, f, { at: T(out), dur: D(0.12) });
           iconOp(0.55, 0, at, 0.15);
@@ -128,7 +142,7 @@ ${hist}
         });
 
         // Beat 4: two names
-        iconOp(lastDim, 0, ns - GF, 0.3); // the icon is gone before the cards land on its spot
+        iconOp(lastDim, 0, ns - GF, GF + 0.05); // the icon is gone before the cards land on its spot
         panelIn(names, ns + 0.05);
         kit.fadeIn(tl, cardW[0], { at: T(ns + 0.05), dur: D(0.25), y: 20 });
         kit.fadeIn(tl, cardW[1], { at: T(ns + 0.15), dur: D(0.25), y: 20 });
@@ -141,7 +155,7 @@ ${hist}
           const c = ds + LEAD + dStart[i], a = i ? I.details[i - 1].crop : FULL;
           zoom(a, I.details[i].crop, c, 0.35);
           if (i) panelOut(dets[i - 1], c, 0.12);
-          kit.fadeIn(tl, p, { at: T(c + 0.12), dur: D(0.12), y: 14 });
+          kit.fadeIn(tl, p, { at: T(c + 0.12), dur: D(0.1), y: 14 }); // full-bright from c + 0.22 to the next detail
         });
         panelOut(dets[dets.length - 1], hy, 0.12);
 
@@ -149,10 +163,10 @@ ${hist}
         zoom(I.details[I.details.length - 1].crop, FULL, hy, 0.5);
         ft(frame, { scale: 1 }, { scale: 1.07 }, hy, TOTAL - hy - 0.05);
         panelIn(hymn, hy + 0.2);
-        const hk = hymn.querySelector('.kicker'), hl = hymn.querySelector('.ic-hlines'), hc = hymn.querySelector('.ic-cite');
-        kit.fadeIn(tl, hk, { at: T(hy + 0.25), dur: D(0.15) });
-        kit.reveal(tl, hl, { at: T(H0), dur: D(HY * I.hymn.lines.length), dim: 0.55, y: 14 });
-        kit.fadeIn(tl, hc, { at: T(H0 + HY * I.hymn.lines.length + 0.1), dur: D(0.15) });
+        const hk = hymn.querySelector('.kicker'), hc = hymn.querySelector('.ic-cite');
+        kit.fadeIn(tl, hk, { at: T(hy + 0.22), dur: D(0.15) });
+        lines(qa('.ic-hline'), I.hymn.lines.map((_, i) => H0 + i * HY), 0.55);
+        kit.fadeIn(tl, hc, { at: T(HC), dur: D(0.15) });
 
         // Beat 7: exit to the starfield
         panelOut(hymn, TOTAL - 0.3, 0.3);

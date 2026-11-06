@@ -20,18 +20,14 @@ window.CONTENT.icon = {
   ],
   history: [
     { line: "No painter’s name. No collection. Only a century." },
-    { line: "An icon painter’s task is faithfulness to a received type, so the story of this image is the story of its type." },
     { line: "The course’s title, “Extreme Humility,” translates Akra Tapeinosis: the name of an older Byzantine image of the 11th–12th century.",
       img: { src: "assets/img/support/kastoria-man-of-sorrows.jpg", alt: "A worn 12th-century Byzantine icon: the dead Christ, eyes closed, head inclined onto his shoulder.", credit: "Man of Sorrows, last quarter of the 12th century, Kastoria (photo: CC BY-SA 4.0)" } },
     { line: "It shows the dead Christ upright in His tomb, eyes closed, hands crossed." },
-    { line: "In the West it became the Man of Sorrows, after Isaiah 53:3: “a man of sorrows, and acquainted with grief.”" },
     { line: "Our icon shows a different moment: Christ alive, mocked by the soldiers, before the Cross." },
     { line: "Greeks call this type the Nymphios, “the Bridegroom.”",
       img: { src: "assets/img/support/kallergis-ecce-homo.jpg", alt: "An 18th-century Greek icon of the same type: Christ standing full-length with a crown of thorns, a red mantle, bound hands and a reed.", credit: "Nikolaos Kallergis, Ecce Homo (c. 1732), Zakynthos" } },
     { line: "On Palm Sunday evening it is carried into the church, where it stays until Holy Thursday." },
-    { line: "At Bridegroom Matins the choir sings: “Behold, the Bridegroom comes at midnight” (the troparion of Bridegroom Matins; cf. Matthew 25:6)." },
-    { line: "A Venetian-Cretan Ecce Homo of the early 16th century already shows Christ crowned with thorns, on gold.",
-      img: { src: "assets/img/support/ecce-homo-venetian-cretan.jpg", alt: "A small early-16th-century icon: the head and shoulders of Christ crowned with thorns, eyes lowered, on a gold ground.", credit: "Ecce Homo, Venetian-Cretan school, early 16th century (photo: AGDekjike, CC BY-SA 4.0)" } }
+    { line: "At Bridegroom Matins the choir sings: “Behold, the Bridegroom comes at midnight” (the troparion of Bridegroom Matins; cf. Matthew 25:6)." }
   ],
   names: {
     left: { title: "Akra Tapeinosis", lines: ["“Utmost Humiliation”", "Christ dead, upright in the tomb", "Eyes closed, hands crossed", "Byzantium, 11th–12th century"] },
@@ -51,8 +47,6 @@ window.CONTENT.icon = {
   details: [
     { crop: { x: 22, y: 14, w: 42, h: 32 }, caption: "Eyes open and lowered. The head bows toward His right shoulder." },
     { crop: { x: 17, y: 10, w: 44, h: 20 }, caption: "A crown of thorns." },
-    { crop: { x: 26, y: 79, w: 46, h: 21 }, caption: "Wrists crossed and tied with a cord." },
-    { crop: { x: 52, y: 24, w: 30, h: 76 }, caption: "A reed for a sceptre: “a reed in his right hand” (Matthew 27:29)." },
-    { crop: { x: 54, y: 40, w: 42, h: 56 }, caption: "The scarlet robe: “they stripped him, and put on him a scarlet robe” (Matthew 27:28)." }
+    { crop: { x: 26, y: 79, w: 46, h: 21 }, caption: "Wrists crossed and tied with a cord." }
   ]
 };
