@@ -30,11 +30,12 @@
   if (typeof window === 'undefined') return;
 
   var root = document.documentElement;
-  var Q_FULL = '(min-width: 761px) and (prefers-reduced-motion: no-preference)';
-  var Q_LITE = '(max-width: 760px), (prefers-reduced-motion: reduce)';
+  // The pinned layouts need at least 1024x640. Lite is the exact complement, so a fractional width (zoom) can never fall between the two.
+  var Q_FULL = '(min-width: 1024px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)';
+  var Q_LITE = 'not all and ' + Q_FULL;
   var forced = /[?&]lite=1/.test(location.search);
   var hasGsap = !!(window.gsap && window.ScrollTrigger);
-  function isLite() { return !hasGsap || forced || matchMedia(Q_LITE).matches; }
+  function isLite() { return !hasGsap || forced || !matchMedia(Q_FULL).matches; }
   function syncClass() { root.classList.toggle('is-lite', isLite()); if (window.sky && sky.refresh) sky.refresh(); }
   syncClass();
   matchMedia(Q_LITE).addEventListener('change', syncClass);
@@ -66,10 +67,11 @@
     mm.add({ full: Q_FULL, lite: Q_LITE }, function (ctx) {
       if (forced || ctx.conditions.lite || !ctx.conditions.full) { if (o.lite) o.lite(); return; }
       var before = dawnST;
+      root.classList.add('is-pinned'); // only now may .abut pull sections together (base.css)
       if (o.full) o.full();
       var own = dawnST !== before ? dawnST : null;
       // On revert (resize to lite / reduced motion) the dawn trigger dies: forget it and put the page back to night.
-      return function () { if (own && dawnST === own) { dawnST = null; if (window.sky) sky.setLight(0); } };
+      return function () { root.classList.remove('is-pinned'); if (own && dawnST === own) { dawnST = null; if (window.sky) sky.setLight(0); } };
     });
     return mm;
   };

@@ -26,15 +26,17 @@ html:not(.is-lite) .scene-lamb .details{position:absolute;left:0;right:0;bottom:
 html:not(.is-lite) .scene-lamb .detail{position:absolute;left:0;right:0;bottom:3.5vh;text-align:center;padding:0 var(--gutter)}
 
 /* Lite: static stack */
-html.is-lite .scene-lamb .stage{padding:48px var(--gutter) 64px;display:flex;flex-direction:column;gap:28px}
+/* lite pictures are at most 80vh tall (short windows) and the column at most 1100px (wide ones) */
+html.is-lite .scene-lamb .stage{max-width:1100px;margin:0 auto;padding:48px var(--gutter) 64px;display:flex;flex-direction:column;gap:28px}
 html.is-lite .scene-lamb .scrim{display:none}
-html.is-lite .scene-lamb .main{position:relative;width:100%;aspect-ratio:2952/1750}
+html.is-lite .scene-lamb .main{position:relative;width:100%;max-width:calc(80vh*2952/1750);aspect-ratio:2952/1750}
 html.is-lite .scene-lamb .head{order:-2}
 html.is-lite .scene-lamb .head .display{font-size:var(--step-3)}
 html.is-lite .scene-lamb .facts-strip{order:-1;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px}
 html.is-lite .scene-lamb .figs{display:none}
 html.is-lite .scene-lamb .hist,html.is-lite .scene-lamb .grp{display:flex;flex-direction:column;gap:20px}
 html.is-lite .scene-lamb .item{display:flex;flex-direction:column;gap:12px}
+html.is-lite .scene-lamb .fig-lite{max-width:min(100%,calc(80vh*var(--ar,1.6)))}
 html.is-lite .scene-lamb .fig-lite .frame{width:100%;aspect-ratio:var(--ar,1.6)}
 html.is-lite .scene-lamb .fig-lite .caption{margin-top:.5em}
 html.is-lite .scene-lamb .details{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:24px}

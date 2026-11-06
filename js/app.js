@@ -2,6 +2,7 @@
 (function () {
   var root = document.documentElement;
   var hasGsap = !!(window.gsap && window.ScrollTrigger);
+  var hasKit = !!window.kit; // every scene's init builds on the kit; without it the page is the static stack, mounted but not initialised
   var C = window.CONTENT || {};
   var q = new URLSearchParams(location.search);
 
@@ -12,6 +13,7 @@
     console.warn('[app] GSAP failed to load; showing the static stack');
     root.classList.add('is-lite');
   }
+  if (!hasKit) { console.warn('[app] scene kit failed to load; showing the static stack'); root.classList.add('is-lite', 'no-kit'); }
 
   var only = (q.get('only') || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
   var scenes = (window.SCENES || []).slice().sort(function (a, b) { return a.order - b.order; });
@@ -44,7 +46,7 @@
 
   function boot() {
     var ctx = { gsap: window.gsap, ScrollTrigger: window.ScrollTrigger, kit: window.kit, audio: window.audio, sky: window.sky, C: C };
-    scenes.forEach(function (s) {
+    if (hasKit) scenes.forEach(function (s) {
       try { s.init(document.getElementById('scene-' + s.id), ctx); }
       catch (e) { console.error('[app] init failed for scene "' + s.id + '"', e); }
     });

@@ -41,11 +41,12 @@ html.is-lite .scene-icon .stage{display:flex;flex-direction:column;gap:2.4rem;pa
 html.is-lite .scene-icon .ic-right{display:contents}
 html.is-lite .scene-icon .ic-p-open{order:0}
 html.is-lite .scene-icon .ic-slot{display:contents}
-html.is-lite .scene-icon .ic-iconwrap{order:1;position:static;width:min(100%,420px);margin:0 auto}
+/* lite pictures are at most 80vh tall */
+html.is-lite .scene-icon .ic-iconwrap{order:1;position:static;width:min(100%,420px,calc(80vh*600/828));margin:0 auto}
 html.is-lite .scene-icon .ic-thumbwrap.is-k{display:none}
 html.is-lite .scene-icon .ic-frame{width:100%;height:auto}
 html.is-lite .scene-icon .ic-fig{order:4;position:static;width:min(100%,520px);margin:0 auto}
-html.is-lite .scene-icon .ic-fig .frame{width:100%}
+html.is-lite .scene-icon .ic-fig .frame{width:min(100%,calc(80vh*var(--ar)))}
 html.is-lite .scene-icon .ic-calls{order:2}
 html.is-lite .scene-icon .ic-p-hist{order:3}
 html.is-lite .scene-icon .ic-names{order:5;position:static;display:flex;flex-direction:column;gap:2rem;padding:0}
@@ -54,5 +55,5 @@ html.is-lite .scene-icon .ic-dets{order:6}
 html.is-lite .scene-icon .ic-p-hymn{order:7}
 html.is-lite .scene-icon .ic-calls,html.is-lite .scene-icon .ic-dets{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:2.4rem 2rem}
 html.is-lite .scene-icon .ic-panel{display:flex;grid-area:auto}
-html.is-lite .scene-icon .ic-crop{display:block;width:100%;max-width:min(100%,var(--lw));margin-inline:auto;aspect-ratio:var(--ar)}
-html.is-lite .scene-icon .ic-thumb{height:auto;width:min(100%,260px)}
+html.is-lite .scene-icon .ic-crop{display:block;width:100%;max-width:min(100%,var(--lw),calc(80vh*var(--ar)));margin-inline:auto;aspect-ratio:var(--ar)}
+html.is-lite .scene-icon .ic-thumb{height:auto;width:min(100%,260px,calc(80vh*var(--ar)))}

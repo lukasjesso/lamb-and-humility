@@ -19,6 +19,7 @@
 html:not(.is-lite) .scene-credits .cr-media:not(.cr-one){width:min(1500px,calc(100% - 64px));padding-top:16vh}
 html:not(.is-lite) .scene-credits .cr-media:not(.cr-one) .cr-cols{grid-template-columns:1fr;row-gap:1.4em}
 html:not(.is-lite) .scene-credits .cr-media:not(.cr-one) .cr-list{columns:2;column-gap:4vw}
+@media (max-height:700px){html:not(.is-lite) .scene-credits .cr-media:not(.cr-one){padding-top:9vh}} /* 1024x640: the Listen line fits */
 .scene-credits .cr-list li{break-inside:avoid}
 @media (max-width:760px){.scene-credits .cr-sources .cr-cols,.scene-credits .cr-cols{grid-template-columns:1fr}}
 html.is-lite .scene-credits .stage{padding:12vh 24px 16vh}

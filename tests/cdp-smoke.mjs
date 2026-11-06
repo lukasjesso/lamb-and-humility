@@ -93,9 +93,26 @@ const COLLECT = `(() => {
       return lum(getComputedStyle(el).color) > 0.45;
     }).map((el) => (el.textContent || '').trim().slice(0, 30) + ' ' + getComputedStyle(el).color);
   }
+  const lite = document.documentElement.classList.contains('is-lite');
+  const name = (el) => el.id || (el.tagName.toLowerCase() + '.' + String(el.className).trim().split(/\s+/).join('.'));
+  // full: an active pinned section's laid-out content must fit the viewport. Measured with its clip lifted and the inline
+  // animation transforms removed (entrance offsets like y:30 on a full-screen layer are motion, not size), then both restored.
+  const tall = lite ? [] : (window.ScrollTrigger ? ScrollTrigger.getAll() : []).filter((s) => s.pin && s.isActive).map((s) => {
+    const el = s.pin, moved = [...el.querySelectorAll('*')].filter((n) => n.style.transform), tf = moved.map((n) => n.style.transform), ov = el.style.overflow;
+    moved.forEach((n) => { n.style.transform = 'none'; }); el.style.overflow = 'visible';
+    const h = el.scrollHeight;
+    moved.forEach((n, i) => { n.style.transform = tf[i]; }); el.style.overflow = ov;
+    return { id: name(el), h };
+  }).filter((t) => t.h > innerHeight + 2);
+  // lite: no element wider than the viewport (pictures inside a .frame are clipped by it, so skip them)
+  const wide = !lite ? [] : [...document.querySelectorAll('#app *')].filter((el) => {
+    if (el.parentElement && el.parentElement.closest('.frame')) return false;
+    const r = el.getBoundingClientRect();
+    return r.width > 0 && r.height > 0 && (r.right > innerWidth + 1 || r.left < -1);
+  }).slice(0, 8).map((el) => { const r = el.getBoundingClientRect(); return name(el) + ' ' + Math.round(r.left) + '..' + Math.round(r.right); });
   const d = window.ScrollTrigger && ScrollTrigger.getAll().find((s) => s.vars && s.vars.refreshPriority === -10);
   return { y: Math.round(scrollY), light, zone: window.__audioZone, zoneLog: window.__audioZoneLog,
-    lite: document.documentElement.classList.contains('is-lite'),
+    lite, tall, wide,
     scrollWidth: document.documentElement.scrollWidth, innerWidth, innerHeight,
     docH: document.documentElement.scrollHeight, pins, swap, leaks, lowContrast,
     dawn: d ? { start: d.start, end: d.end } : null };
@@ -151,6 +168,8 @@ async function main() {
     const check = (label, f) => {
       if (f.scrollWidth > f.innerWidth) fail(`${label}: horizontal overflow ${f.scrollWidth} > ${f.innerWidth}`);
       f.pins.forEach((p) => { if (p.active && p.progress > 0.02 && p.progress < 0.98 && Math.abs(p.top) > 2) fail(`${label}: pin ${p.id} drifted top=${p.top} at progress ${p.progress}`); });
+      f.tall.forEach((t) => fail(`${label}: pinned ${t.id} content is ${t.h}px tall, viewport ${f.innerHeight}`));
+      if (f.wide.length) fail(`${label}: wider than the viewport (${f.innerWidth}): ${f.wide.join(' | ')}`);
       if (!f.lite) f.swap.forEach((s) => { if (s.n > 1) fail(`${label}: ${s.n} swap panels visible at once`); });
       if (f.lowContrast.length) fail(`${label}: light text on daylight (light ${f.light.toFixed(2)}): ${f.lowContrast.join(' | ')}`);
       if (f.leaks.length) fail(`${label}: text visible during flood (light ${f.light.toFixed(2)}): ${f.leaks.join(' | ')}`);

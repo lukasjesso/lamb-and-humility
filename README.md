@@ -10,7 +10,9 @@ A scroll-driven comparison of Zurbarán's *Lamb of God* and the icon of *Extreme
 
 A scroll-driven, cinematic one-pager: every scene pins to the screen and scroll position scrubs its animation (reversible).
 A dark starfield sits behind the page; near the end light enters from the LEFT edge and floods the page to warm daylight.
-Two chant recordings crossfade by position. Phones and `prefers-reduced-motion` get a static stacked fallback ("lite").
+Two chant recordings crossfade by position. The pinned layout needs a window of at least 1024x640 CSS px; anything narrower or shorter
+(phones, tablets, a zoomed or small laptop window), `prefers-reduced-motion`, and `?lite=1` get a static stacked fallback ("lite").
+If GSAP or the scene kit fails to load, `app.js` shows the same static stack (`is-lite`; `no-kit` when the kit is missing, and scenes are then not initialised).
 
 Plain HTML/CSS/JS, no build, classic `<script>` tags. Only externals: Google Fonts and GSAP 3.15.1 (cdnjs).
 
@@ -29,15 +31,16 @@ URL flags: `?only=landing,lamb` mounts only those scenes (demo scenes are mounte
 ```
 node --test tests/*.test.js           # kit (coverTransform, dawnCurve) + content schema + "assets exist" (Node 24 needs the glob, not a bare tests/)
 node tests/cdp-smoke.mjs --only=demo,demo-dawn --sizes=1440x900,390x844 --every=0.5 --pins --reverse --resize --allow-missing=assets/audio/ --out=tests/shots/demo
-node tests/cdp-smoke.mjs --sizes=1920x1080,1366x768 --every=0.5 --pins --reverse --resize --out=tests/shots/full   # the whole film (~10 min)
-node tests/cdp-smoke.mjs --lite --sizes=390x844,1440x900 --every=0.75 --out=tests/shots/full-lite
+node tests/cdp-smoke.mjs --sizes=1920x1080,1366x768,1024x640 --every=0.5 --pins --reverse --resize --out=tests/shots/full   # the whole film (~15 min)
+node tests/cdp-smoke.mjs --lite --sizes=907x459,1400x600,390x844,1440x900 --every=0.75 --out=tests/shots/full-lite
 node tests/cdp-smoke.mjs --only=<your-scene-id> --sizes=1920x1080,1366x768,390x844 --every=0.5 --pins --reverse --out=tests/shots/<name>
 ```
 
 Smoke flags: `--only --sizes --every=k (steps of k viewport heights) --pins --reverse --resize --lite --out --allow-missing=prefix,prefix`.
 It starts its own server (port 0) and its own headless Chrome in a fresh temp profile (safe to run in parallel), exits 1 on any failure,
 prints a JSON summary, and writes `<out>/index.html`, a filmstrip contact sheet to LOOK at. Asserts: zero errors / 4xx (except allowed prefixes),
-no horizontal overflow, pinned element stays at top 0 (+-2px) while pinned, at most one `[data-swap-panel]` visible per `[data-swap-group]`,
+no horizontal overflow (in lite: no element wider than the viewport, pictures inside a `.frame` excepted), pinned element stays at top 0 (+-2px) while pinned,
+an active pinned section's laid-out content fits the viewport (its `scrollHeight` with the clip and the inline animation transforms lifted is <= innerHeight + 2), at most one `[data-swap-panel]` visible per `[data-swap-group]`,
 no text (`.reveal, p, li, blockquote`) visible while 0.15 < light < 0.9 (unless `[data-flood-ok]`), light 0 before the dawn trigger and 1 after it, zones only none/lamb/icon,
 and on the full page the lamb chant before the dawn trigger starts and never after it.
 
@@ -76,11 +79,11 @@ Optional scene field `with: "<id>"` mounts the scene whenever that other id is m
 | `kit.swap(tl, A, B, {fromSide='right'\|'left',at,dur=0.2,distance=90})` | A fades out (first 45%), B slides in from `fromSide` (last 45%); never both visible. Panels need `data-swap-panel`, their common parent `data-swap-group` |
 | `kit.dawn(tl, {glowUntil=.7, glow=.06, end=1})` | ONE global light trigger from `tl`'s start to `end` (fraction of its pin) — light 1 from there on, so a pin can hold in full light after the flood (a second call warns and replaces the first). Light is a pure function of scroll position, so jumps are safe. `glowUntil` is a fraction of that dawn range. `kit.dawnCurve(p, glowUntil, glow)` is the pure curve |
 | `kit.dawnTrigger` (getter), `kit.coverTransform(crop, natural, box)`, `kit.lerpCrop(a, b, t)` | the active dawn ScrollTrigger (or null); pure helpers (unit-tested) |
-| `kit.media(el, {full, lite})` | `full()` on desktop with motion, `lite()` on `(max-width:760px)` or reduced motion or `?lite=1`; GSAP reverts everything created inside on change |
+| `kit.media(el, {full, lite})` | `full()` on `(min-width:1024px) and (min-height:640px) and (prefers-reduced-motion:no-preference)`; `lite()` on everything else (the exact complement, so a fractional zoomed width never falls between the two) or `?lite=1`. `html.is-pinned` is set while `full()` is live. GSAP reverts everything created inside on change |
 | `kit.lite`, `kit.onRefresh(fn)` | boolean getter; callback on ScrollTrigger `refresh` |
 
-**Abutting pins (`class="abut"`)**: a pinned section with class `abut` starts the moment the previous pin ends (`margin-top:-100vh` outside lite,
-copied by GSAP onto the pin spacer), so no empty screen scrolls by between scenes. Contract: the previous pin ENDS empty (everything faded) and this one
+**Abutting pins (`class="abut"`)**: a pinned section with class `abut` starts the moment the previous pin ends (`margin-top:-100vh` only under `html.is-pinned`,
+copied by GSAP onto the pin spacer; without live pins the margin would stack every scene on one screen), so no empty screen scrolls by between scenes. Contract: the previous pin ENDS empty (everything faded) and this one
 STARTS empty (everything hidden at progress 0). Every scene after the landing abuts: lamb, icon, the connection section and each `.conn` after the first, credits.
 The lamb is the one exception to "starts empty": its first frame equals the landing's last, and the landing's own timeline shows it (`autoAlpha`) at progress 1
 and hides itself, so the handoff is one atomic, scrub-synced swap.
@@ -90,7 +93,7 @@ Swap markup: panels are siblings inside ONE group element:
 <div class="stage" data-swap-group><div data-swap-panel>...A...</div><div data-swap-panel>...B...</div></div>
 ```
 Call `kit.frame(img, crop)` inside `full()` / `lite()` (never at module load): the img must already be loaded, which `app.js` guarantees before `init`.
-Dawn timing: light follows scroll instantly (no scrub), text tweens are scrubbed with lag, so all text must be gone by about 0.6 of the dawn pin and only return after about 0.95. If the window leaves `full` (resize below 760px or reduced motion) the kit kills the dawn trigger and resets the light to 0 (night); re-entering `full` rebuilds it from the scroll position.
+Dawn timing: light follows scroll instantly (no scrub), text tweens are scrubbed with lag, so all text must be gone by about 0.6 of the dawn pin and only return after about 0.95. If the window leaves `full` (resize below 1024x640 or reduced motion) the kit kills the dawn trigger and resets the light to 0 (night); re-entering `full` rebuilds it from the scroll position.
 
 Example (pin + grow + zoom + reveal + swap):
 
@@ -126,7 +129,9 @@ See `scenes/90-demo.js` for a working one (including `kit.dawn`).
 
 1. Own only your two scene files (`scenes/NN-name.js` and `.css`); prefix every CSS selector with `.scene-<id>`. Never edit base/tokens/kit/content. Needs go in your report.
 2. No element is shared across scenes.
-3. No `transform`, `filter`, `perspective`, `contain`, `will-change` or `overflow:hidden` on a pinned ancestor (`.scene`, `#app`, `main`, `body`, `html`).
+3. No `transform`, `filter`, `perspective`, `contain`, `will-change` or `overflow:hidden` on a pinned ancestor (`#app`, `main`, `body`, `html`). A pinned `.scene` clips
+   itself (`html.is-pinned .scene{overflow:clip}`, base.css), so a scene can never spill into the abutting ones; a section that only holds pins (connection) sets `overflow:visible`.
+   Lay out your full scene to fit 1024x640: the smoke test fails a pinned section whose content is taller than the viewport.
 4. Build ALL timelines and ScrollTriggers inside `kit.media` `full()`; `lite()` sets static states only (e.g. `kit.frame(img, crop)`). Add your lite layout under `html.is-lite .scene-<id>`.
 5. Keep `at + dur <= 1`.
 6. Every `<img>` has `width`/`height` attributes and sits inside a `.frame` (`<img class="art">`); the frame's size is yours to set.

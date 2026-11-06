@@ -22,7 +22,7 @@ window.SCENES.push({
     const SCREENS = 0.85, S = (x) => x / SCREENS, full = { x: 0, y: 0, w: 100, h: 100 }; // times below are in screens
     const next = document.getElementById('scene-lamb'); // abuts us (class abut): its first frame is our last frame
     let cueTl = null, outTw = null;
-    const resetBegin = () => { if (cueTl) cueTl.kill(); if (outTw) outTw.kill(); cueTl = outTw = null; gsap.set([btn, hint, cue], { clearProps: 'all' }); };
+    const resetBegin = () => { if (!gsap) return; if (cueTl) cueTl.kill(); if (outTw) outTw.kill(); cueTl = outTw = null; gsap.set([btn, hint, cue], { clearProps: 'all' }); };
 
     // Begin: click-driven, not scroll. In lite the button stays and takes the reader to the first painting.
     btn.addEventListener('click', () => {
@@ -54,7 +54,7 @@ window.SCENES.push({
         if (next) { gsap.set(next, { autoAlpha: 0 }); tl.set(next, { autoAlpha: 1 }, 1); }
         tl.set(el, { autoAlpha: 0 }, 1);
       },
-      lite() { resetBegin(); gsap.set(lamb, { clearProps: 'all' }); kit.frame(limg, full); kit.frame(iimg, full); }
+      lite() { resetBegin(); if (gsap) gsap.set(lamb, { clearProps: 'all' }); kit.frame(limg, full); kit.frame(iimg, full); }
     });
   }
 });

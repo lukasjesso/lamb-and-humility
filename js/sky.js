@@ -38,8 +38,8 @@
     }
   }
   function isStatic() { // sky.js loads before scene-kit, so test lite conditions directly too
-    return root.classList.contains('is-lite') || /[?&]lite=1/.test(location.search) || innerWidth <= 760 ||
-      matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return root.classList.contains('is-lite') || /[?&]lite=1/.test(location.search) ||
+      !matchMedia('(min-width: 1024px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)').matches; // = scene-kit Q_FULL
   }
   function draw(t) {
     if (!ctx) return;

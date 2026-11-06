@@ -8,6 +8,7 @@ html.is-lite .scene-landing{z-index:auto}
 .scene-landing .ld-slot{width:calc(var(--s)*100vw);height:calc(var(--s)*100vh)}
 .scene-landing .ld-icon{height:var(--ih);aspect-ratio:600/828}
 .scene-landing .ld-cap{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:1.2vh;width:max-content;max-width:22em;text-align:center}
+@media (max-width:1279px){.scene-landing .ld-fig-icon .ld-cap{max-width:100%;text-wrap:balance}} /* the icon's caption would run into the lamb's */
 .scene-landing .ld-lamb{position:absolute;inset:0;width:100vw;height:100vh;pointer-events:none}
 .scene-landing .ld-cta{position:absolute;left:0;right:0;top:80vh;display:flex;flex-direction:column;align-items:center;gap:1vh;z-index:2}
 .scene-landing .begin{min-height:44px;padding:.55em 2.2em;font:inherit;font-size:var(--step-0);letter-spacing:.24em;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gold);cursor:pointer}
@@ -25,8 +26,8 @@ html.is-lite .scene-landing .ld-lamb{display:none}
 html.is-lite .scene-landing .ld-row{flex-wrap:wrap;align-items:flex-start;gap:6vh 5vw;margin:5vh 0 4vh}
 html.is-lite .scene-landing .ld-cap{position:static;transform:none;width:auto;max-width:none;margin-top:1.2vh}
 html.is-lite .scene-landing .ld-fig{max-width:100%}
-html.is-lite .scene-landing .ld-slot{width:min(86vw,560px);height:auto;aspect-ratio:2952/1750;background:center/cover url(../assets/img/zurbaran-prado-2952.jpg)}
-html.is-lite .scene-landing .ld-icon{height:auto;width:min(60vw,320px)}
+html.is-lite .scene-landing .ld-slot{width:min(86vw,560px,calc(46vh*2952/1750));height:auto;aspect-ratio:2952/1750;background:center/cover url(../assets/img/zurbaran-prado-2952.jpg)}
+html.is-lite .scene-landing .ld-icon{height:auto;width:min(60vw,320px,calc(46vh*600/828))}
 html.is-lite .scene-landing .ld-cta{margin:2vh 0}
 html.is-lite .scene-landing .ld-course{margin-top:6vh}
 html.is-lite .scene-landing .ld-cue{display:none}
