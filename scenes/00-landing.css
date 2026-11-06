@@ -1,0 +1,32 @@
+.scene-landing{z-index:2;--s:.33;--ih:42vh} /* the lamb scene abuts our pin (class abut) and is shown only when our timeline ends: invisible handoff */
+html.is-lite .scene-landing{z-index:auto}
+.scene-landing .ld-head{position:absolute;top:4vh;left:0;right:0;text-align:center;padding:0 5vw}
+.scene-landing .ld-title{font-size:min(5vw,8.4vh);font-weight:500}
+.scene-landing .ld-sub{margin:1.4vh auto 0;max-width:62vw;color:var(--ink-dim);font-size:min(var(--step-1),3vh)}
+.scene-landing .ld-row{position:absolute;left:0;right:0;bottom:31vh;display:flex;justify-content:center;align-items:flex-end;gap:3.5vw}
+.scene-landing .ld-fig{position:relative;margin:0}
+.scene-landing .ld-slot{width:calc(var(--s)*100vw);height:calc(var(--s)*100vh)}
+.scene-landing .ld-icon{height:var(--ih);aspect-ratio:600/828}
+.scene-landing .ld-cap{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:1.2vh;width:max-content;max-width:22em;text-align:center}
+.scene-landing .ld-lamb{position:absolute;inset:0;width:100vw;height:100vh;pointer-events:none}
+.scene-landing .ld-cta{position:absolute;left:0;right:0;top:80vh;display:flex;flex-direction:column;align-items:center;gap:1vh;z-index:2}
+.scene-landing .begin{min-height:44px;padding:.55em 2.2em;font:inherit;font-size:var(--step-0);letter-spacing:.24em;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gold);cursor:pointer}
+.scene-landing .begin:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+.scene-landing .ld-hint{font-size:calc(var(--step--1)*.9);letter-spacing:.06em}
+.scene-landing .ld-cue{position:absolute;top:0;left:50%;width:1px;height:9vh;background:var(--gold);visibility:hidden;opacity:0}
+.scene-landing .ld-course{position:absolute;bottom:2.4vh;left:0;right:0;text-align:center;font-size:calc(var(--step--1)*.85);letter-spacing:.06em}
+
+html.is-lite .scene-landing{height:auto;padding:8vh 5vw 4vh}
+html.is-lite .scene-landing .stage>*{position:static}
+html.is-lite .scene-landing .ld-head{padding:0}
+html.is-lite .scene-landing .ld-title{font-size:clamp(34px,8vw,64px)}
+html.is-lite .scene-landing .ld-sub{max-width:34em}
+html.is-lite .scene-landing .ld-lamb{display:none}
+html.is-lite .scene-landing .ld-row{flex-wrap:wrap;align-items:flex-start;gap:6vh 5vw;margin:5vh 0 4vh}
+html.is-lite .scene-landing .ld-cap{position:static;transform:none;width:auto;max-width:none;margin-top:1.2vh}
+html.is-lite .scene-landing .ld-fig{max-width:100%}
+html.is-lite .scene-landing .ld-slot{width:min(86vw,560px);height:auto;aspect-ratio:2952/1750;background:center/cover url(../assets/img/zurbaran-prado-2952.jpg)}
+html.is-lite .scene-landing .ld-icon{height:auto;width:min(60vw,320px)}
+html.is-lite .scene-landing .ld-cta{margin:2vh 0}
+html.is-lite .scene-landing .ld-course{margin-top:6vh}
+html.is-lite .scene-landing .ld-cue{display:none}

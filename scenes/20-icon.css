@@ -1,0 +1,58 @@
+/* Scene "icon". Left: the icon slot (icon + support figures). Right: text panels stacked in one grid cell. */
+.scene-icon .ic-slot{position:absolute;left:var(--gutter);top:8vh;width:40vw;height:84vh}
+.scene-icon .ic-iconwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.scene-icon .ic-frame{height:84vh;aspect-ratio:600/828;max-width:100%}
+.scene-icon .ic-frame,.scene-icon .ic-fig .frame,.scene-icon .ic-thumb{outline:1px solid color-mix(in srgb,var(--gold) 30%,transparent)}
+.scene-icon .ic-fig{position:absolute;inset:0;margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8em}
+.scene-icon .ic-fig .frame{--ar:1.4;width:min(100%,calc((84vh - 72px)*var(--ar)));aspect-ratio:var(--ar)}
+.scene-icon .ic-fig .caption{text-align:center}
+
+.scene-icon .ic-right{position:absolute;top:0;bottom:0;left:54vw;right:var(--gutter);display:grid;align-items:center}
+.scene-icon .ic-grp{display:contents}
+.scene-icon .ic-panel{grid-area:1/1;display:flex;flex-direction:column;gap:.9em}
+html:not(.is-lite) .scene-icon .ic-crop{display:none}
+
+.scene-icon .ic-p-open .display{margin:.05em 0}
+.scene-icon .ic-p-open .facts-strip{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:1.1em 2.2em;margin-top:1.2em}
+.scene-icon .ic-p-open .fact,.scene-icon .ic-p-open .fact:first-child{padding:0;border:0}
+
+.scene-icon .ic-p-call .greek{font-size:var(--step-3);line-height:1.1;text-wrap:balance}
+.scene-icon .ic-translit{font-style:italic;font-size:var(--step-1);color:var(--ink-dim)}
+.scene-icon .ic-p-call .lede{font-style:normal;font-size:var(--step-2);line-height:1.15}
+.scene-icon .ic-line{font-size:var(--step-1);line-height:1.35;text-wrap:pretty}
+.scene-icon .ic-p-hist{gap:1.1em}
+.scene-icon .ic-cap{font-size:var(--step-2);line-height:1.25;text-wrap:balance}
+
+.scene-icon .ic-p-hymn{align-items:center;text-align:center;gap:1.2em}
+.scene-icon .ic-hlines{display:flex;flex-direction:column;gap:.5em}
+.scene-icon .ic-hline{font-style:italic;font-size:var(--step-2);line-height:1.25;text-wrap:balance}
+
+.scene-icon .ic-names{position:absolute;inset:0;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;column-gap:clamp(24px,4vw,80px);padding:0 var(--gutter)}
+.scene-icon .ic-vrule{width:1px;height:50vh;background:var(--gold)}
+.scene-icon .ic-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.5em}
+.scene-icon .ic-card p{font-size:var(--step-1)}
+.scene-icon .ic-card .lede{font-size:var(--step-1);margin-bottom:.4em}
+.scene-icon .ic-thumbwrap{display:flex;flex-direction:column;align-items:center;gap:.4em;margin-bottom:1em}
+.scene-icon .ic-thumb{--ar:1.4;height:24vh;width:auto;aspect-ratio:var(--ar)}
+.scene-icon .ic-thumbwrap .caption{font-size:var(--step--1)}
+
+/* Lite: static stack. */
+html.is-lite .scene-icon .stage{display:flex;flex-direction:column;gap:2.4rem;padding:3.5rem var(--gutter) 4rem;max-width:1100px;margin:0 auto}
+html.is-lite .scene-icon .ic-right{display:contents}
+html.is-lite .scene-icon .ic-p-open{order:0}
+html.is-lite .scene-icon .ic-slot{display:contents}
+html.is-lite .scene-icon .ic-iconwrap{order:1;position:static;width:min(100%,420px);margin:0 auto}
+html.is-lite .scene-icon .ic-thumbwrap.is-k{display:none}
+html.is-lite .scene-icon .ic-frame{width:100%;height:auto}
+html.is-lite .scene-icon .ic-fig{order:4;position:static;width:min(100%,520px);margin:0 auto}
+html.is-lite .scene-icon .ic-fig .frame{width:100%}
+html.is-lite .scene-icon .ic-calls{order:2}
+html.is-lite .scene-icon .ic-p-hist{order:3}
+html.is-lite .scene-icon .ic-names{order:5;position:static;display:flex;flex-direction:column;gap:2rem;padding:0}
+html.is-lite .scene-icon .ic-vrule{width:64px;height:1px}
+html.is-lite .scene-icon .ic-dets{order:6}
+html.is-lite .scene-icon .ic-p-hymn{order:7}
+html.is-lite .scene-icon .ic-calls,html.is-lite .scene-icon .ic-dets{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:2.4rem 2rem}
+html.is-lite .scene-icon .ic-panel{display:flex;grid-area:auto}
+html.is-lite .scene-icon .ic-crop{display:block;width:100%;aspect-ratio:var(--ar)}
+html.is-lite .scene-icon .ic-thumb{height:auto;width:min(100%,260px)}

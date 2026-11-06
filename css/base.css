@@ -1,0 +1,57 @@
+*,*::before,*::after{box-sizing:border-box}
+html,body,h1,h2,h3,h4,p,figure,blockquote,ul,ol{margin:0;padding:0}
+ul,ol{list-style:none}
+html{background:var(--night)}
+body{color:var(--ink);font-family:var(--font-body);font-size:var(--step-0);line-height:1.45;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+button{font:inherit}
+
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:var(--z-sky);pointer-events:none}
+#dawn{position:fixed;left:-150vmax;top:calc(50vh - 150vmax);width:300vmax;height:300vmax;border-radius:50%;
+  background:radial-gradient(circle closest-side,var(--day-core) 0%,var(--day) 78%,transparent 100%);
+  transform:scale(.0001);opacity:0;pointer-events:none;z-index:var(--z-dawn);will-change:transform,opacity}
+/* Soft warm glow at the left edge before the flood (a disc at tiny scale would read as a hard grey blob). */
+html::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:var(--z-dawn);
+  background:radial-gradient(ellipse 55vmax 70vmax at 0% 50%,color-mix(in srgb,var(--star-warm) 55%,transparent),color-mix(in srgb,var(--star-warm) 16%,transparent) 45%,transparent 100%);
+  opacity:calc(min(var(--light)*12,1)*max(0,1 - var(--light)*1.15))}
+#app{position:relative;z-index:var(--z-app);transition:opacity .8s}
+html:not(.is-ready) #app{opacity:0}
+
+/* No transform/filter/perspective/contain/will-change/overflow on .scene, #app, main, body, html: they break pinning. */
+.scene{position:relative;width:100%;height:100vh}
+.scene .stage{position:absolute;inset:0}
+/* .abut: this pin starts the moment the previous pin ends (no empty screen while one section scrolls out and the next in).
+   GSAP copies the margin onto the pin spacer. The previous pin must END empty and this one must START empty. */
+html:not(.is-lite) .abut{margin-top:-100vh}
+
+.kicker{text-transform:uppercase;letter-spacing:.22em;font-size:var(--step--1);font-weight:600;color:var(--gold)}
+.display{font-size:var(--step-4);font-weight:500;line-height:1.02;letter-spacing:-.01em}
+.title{font-size:var(--step-3);font-weight:500;line-height:1.05}
+.lede{font-size:var(--step-1);font-style:italic}
+blockquote.quote{font-style:italic;font-size:var(--step-1);line-height:1.35}
+.quote cite{display:block;font-style:normal;font-size:var(--step--1);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);margin-top:.6em}
+.caption{font-size:var(--step--1);color:var(--ink-dim)}
+.greek{font-family:var(--font-greek);letter-spacing:.04em}
+.facts-strip{display:flex;flex-wrap:wrap}
+.facts-strip .fact{display:flex;flex-direction:column;gap:.2em;padding:.3em 1.4em}
+.facts-strip .fact:first-child{padding-left:0}
+.facts-strip .fact+.fact{border-left:1px solid color-mix(in srgb,var(--gold) 45%,transparent)}
+.facts-strip .label{font-size:calc(var(--step--1)*.8);text-transform:uppercase;letter-spacing:.18em;color:var(--gold);font-weight:600}
+.facts-strip .value{font-size:var(--step-0)}
+.rule{display:block;width:64px;height:1px;background:var(--gold)}
+.frame{position:relative;overflow:hidden;background:#000}
+.frame>img.art{position:absolute;top:0;left:0;max-width:none;transform-origin:0 0;will-change:transform;user-select:none;-webkit-user-drag:none}
+.reveal{}
+
+/* Lite: no pinning; scenes add their own layout under html.is-lite .scene-<id>. */
+html.is-lite .scene{height:auto;min-height:0}
+html.is-lite .scene .stage{position:relative;inset:auto}
+
+#sound{position:fixed;right:20px;bottom:20px;width:44px;height:44px;border-radius:50%;padding:0;display:none;align-items:center;justify-content:center;
+  background:rgba(6,7,13,.55);border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);color:var(--gold);cursor:pointer;z-index:var(--z-ui)}
+html.audio-armed #sound,html.show-sound #sound{display:flex}
+#sound:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+#sound .strike{display:none}
+html.audio-muted #sound .strike{display:block}
+
+@media (prefers-reduced-motion:reduce){#app{transition:none}}

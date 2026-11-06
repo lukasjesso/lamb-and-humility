@@ -1,0 +1,26 @@
+.scene-credits .cr-panel,.scene-credits .cr-card{position:absolute;inset:0;margin:0 auto;width:min(1100px,calc(100% - 64px));display:flex;flex-direction:column;justify-content:flex-start;padding-top:22vh}
+.scene-credits .cr-cols{display:grid;grid-template-columns:1fr 1fr;gap:0 4vw;margin-top:1.4em}
+.scene-credits .cr-block .kicker{margin-bottom:0}
+.scene-credits .kicker{color:color-mix(in srgb,#6f5410 calc(var(--light)*100%),var(--gold))}
+.scene-credits .cr-sources .cr-cols{grid-template-columns:repeat(3,1fr)}
+.scene-credits .cr-one .cr-cols{grid-template-columns:1fr;max-width:640px;margin-left:auto;margin-right:auto;width:100%}
+.scene-credits .cr-one .cr-listen{text-align:center}
+.scene-credits .cr-list{list-style:none;margin:0;padding:0;font-size:var(--step-0);line-height:1.3} /* readable after 1080p video compression */
+.scene-credits .cr-list li{padding:.35em 0;border-top:1px solid var(--ink-dim)}
+.scene-credits .cr-list a{color:inherit;text-decoration:none;border-bottom:1px solid var(--ink-dim)}
+.scene-credits .cr-list a:hover,.scene-credits .cr-listen a:hover{text-decoration:underline}
+.scene-credits a:focus-visible{outline:2px solid var(--gold-deep);outline-offset:3px}
+.scene-credits .cr-listen{margin-top:1.6em;font-size:var(--step-0)}
+.scene-credits .cr-listen a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+.scene-credits .cr-card{text-align:center;display:flex;flex-direction:column;gap:.7em;align-items:center}
+.scene-credits .cr-card{margin-top:0;justify-content:center;padding-top:0}
+.scene-credits .cr-card .display{font-size:var(--step-3)}
+/* media: the image list flows in two columns with the music under it, so the larger type still fits one screen */
+html:not(.is-lite) .scene-credits .cr-media:not(.cr-one){width:min(1500px,calc(100% - 64px));padding-top:16vh}
+html:not(.is-lite) .scene-credits .cr-media:not(.cr-one) .cr-cols{grid-template-columns:1fr;row-gap:1.4em}
+html:not(.is-lite) .scene-credits .cr-media:not(.cr-one) .cr-list{columns:2;column-gap:4vw}
+.scene-credits .cr-list li{break-inside:avoid}
+@media (max-width:760px){.scene-credits .cr-sources .cr-cols,.scene-credits .cr-cols{grid-template-columns:1fr}}
+html.is-lite .scene-credits .stage{padding:12vh 24px 16vh}
+html.is-lite .scene-credits .cr-panel,html.is-lite .scene-credits .cr-card{padding-top:0;position:static;display:block;width:auto;margin:0 auto 3em;max-width:1100px}
+html.is-lite .scene-credits .cr-card{margin-top:4em;display:flex}

@@ -1,0 +1,40 @@
+.scene-connection{height:auto}
+/* the pins abut via class abut (base.css): each connection starts the moment the previous one ends */
+.scene-connection .conn{position:relative;width:100%;height:100vh;overflow:clip}
+.scene-connection .ctitle{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.5em;padding:0 var(--gutter);opacity:0;visibility:hidden}
+.scene-connection .ctitle .display{font-weight:700;max-width:14em;text-wrap:balance}
+.scene-connection .ctitle .display.long{font-size:var(--step-3);max-width:18em}
+.scene-connection .ctitle .lede{font-size:var(--step-2);max-width:26em;margin-top:.5em;color:var(--ink-dim)}
+.scene-connection .cpanel{position:absolute;inset:0}
+.scene-connection .pslot{position:absolute;top:0;bottom:0;width:46vw;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden}
+.scene-connection .cp-b .pslot{opacity:1;visibility:inherit}
+/* --maxh keeps the low-res icon's zoom target under its magnification cap, but never below 34vw wide (the JS then widens the zoom target) */
+.scene-connection .frame{flex:none;aspect-ratio:var(--ar);height:min(74vh,calc(44vw / var(--ar)),max(calc(34vw / var(--ar)),var(--maxh,99999px)))}
+.scene-connection .pic-left .pslot{left:4vw}
+.scene-connection .pic-right .pslot{right:4vw}
+.scene-connection .ctxt{position:absolute;top:0;bottom:0;width:36vw;display:flex;flex-direction:column;justify-content:center;gap:.7em}
+.scene-connection .pic-left .ctxt{right:5vw}
+.scene-connection .pic-right .ctxt{left:5vw}
+.scene-connection .ctxt .reveal{opacity:0;visibility:hidden;line-height:1.28}
+.scene-connection .ctxt blockquote{margin-top:.3em;padding-left:1em;border-left:1px solid var(--gold)}
+.scene-connection .cpair{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5vh;pointer-events:none}
+.scene-connection .pairrow{display:flex;align-items:center;justify-content:center;gap:4vw;opacity:0;visibility:hidden}
+.scene-connection .pairrow .frame{height:min(52vh,calc(42vw / var(--ar)));box-shadow:0 18px 50px rgba(26,22,18,.3)}
+.scene-connection .finale{text-align:center;max-width:56em;padding:0 var(--gutter);opacity:0;visibility:hidden} /* wide enough for the title-size line on two lines */
+.scene-connection .finale .lede{font-size:var(--step-3);line-height:1.12;text-wrap:balance} /* the climax line: title size */
+.scene-connection .finale .caption{margin-top:.6em;font-size:var(--step-0)}
+/* VIII is on the cream page: paintings sit on it with a soft shadow, not a black box */
+.scene-connection .conn.is-day .frame{background:transparent;box-shadow:0 18px 50px rgba(26,22,18,.25)}
+
+/* Lite: a static block per connection */
+html.is-lite .scene-connection .conn{margin-top:0 !important;height:auto;padding:72px var(--gutter);display:flex;flex-direction:column;gap:40px}
+html.is-lite .scene-connection .ctitle,html.is-lite .scene-connection .pslot,html.is-lite .scene-connection .ctxt .reveal,html.is-lite .scene-connection .pairrow,html.is-lite .scene-connection .finale{opacity:1;visibility:visible}
+html.is-lite .scene-connection .ctitle,html.is-lite .scene-connection .cpanel,html.is-lite .scene-connection .cpair,html.is-lite .scene-connection .ctxt,html.is-lite .scene-connection .pslot{position:relative;inset:auto;width:100%}
+html.is-lite .scene-connection .ctitle{padding:0}
+html.is-lite .scene-connection .ctitle .display{font-size:var(--step-3)}
+html.is-lite .scene-connection .ctitle .lede{font-size:var(--step-1)}
+html.is-lite .scene-connection .cpanel{display:flex;flex-direction:column;gap:20px}
+html.is-lite .scene-connection .frame{width:100%;max-width:min(100%,var(--lw,960px));margin-inline:auto;height:auto;aspect-ratio:var(--arz)}
+html.is-lite .scene-connection .cpair{gap:24px}
+html.is-lite .scene-connection .pairrow{flex-direction:column;width:100%;gap:20px}
+html.is-lite .scene-connection .pairrow .frame{width:100%;height:auto}

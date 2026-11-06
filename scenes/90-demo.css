@@ -1,0 +1,17 @@
+/* Kit demo styles (only used with ?only=demo,demo-dawn) */
+.scene-demo .demo-panel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:5vw;padding:0 var(--gutter)}
+.scene-demo .demo-frame{width:46vw;height:60vh;flex:none}
+.scene-demo .demo-frame-icon{width:30vw}
+.scene-demo .demo-text{width:34vw;display:flex;flex-direction:column;gap:.8em}
+.scene-demo-dawn .dd-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1em;padding:0 var(--gutter)}
+.scene-demo-dawn .dd-line{font-size:var(--step-2)}
+.scene-demo-end{height:60vh}
+.scene-demo-end .stage{display:flex;align-items:center;justify-content:center}
+
+html.is-lite .scene-demo .stage{display:flex;flex-direction:column;gap:40px;padding:40px var(--gutter)}
+html.is-lite .scene-demo .demo-panel{position:relative;inset:auto;flex-direction:column;padding:0;gap:20px}
+html.is-lite .scene-demo .demo-frame,html.is-lite .scene-demo .demo-frame-icon{width:100%;height:50vw;min-height:200px}
+html.is-lite .scene-demo .demo-text{width:100%}
+html.is-lite .scene-demo-dawn .stage{padding:60px var(--gutter)}
+html.is-lite .scene-demo-dawn .dd-center{position:relative;inset:auto}
+html.is-lite .scene-demo-end{height:auto}

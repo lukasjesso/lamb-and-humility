@@ -1,0 +1,41 @@
+/* Scene: Lamb of God intro. Full layout under html:not(.is-lite); lite is a static stack. */
+.scene-lamb .scrim{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 75% 85% at 0% 100%,color-mix(in srgb,var(--night) 92%,transparent) 0%,color-mix(in srgb,var(--night) 70%,transparent) 40%,transparent 80%)}
+.scene-lamb .main{box-shadow:0 0 0 1px color-mix(in srgb,var(--gold) 35%,transparent)}
+.scene-lamb .head .display{margin:.1em 0 .15em}
+.scene-lamb .facts-strip .fact+.fact{border-left:0}
+.scene-lamb .facts-strip .fact{padding:.35em 0}
+.scene-lamb .detail .caption{font-size:var(--step-1);color:var(--ink);font-style:italic}
+
+html:not(.is-lite) .scene-lamb .main{position:absolute;inset:0}
+html:not(.is-lite) .scene-lamb .head{position:absolute;left:var(--gutter);top:8vh;width:40vw}
+html:not(.is-lite) .scene-lamb .head .display{transform-origin:0 0}
+html:not(.is-lite) .scene-lamb .facts-strip{position:absolute;left:var(--gutter);top:29vh;width:40vw;display:grid;grid-template-columns:1fr 1fr;column-gap:2em}
+html:not(.is-lite) .scene-lamb .facts-strip .fact:first-child{grid-column:1/-1}
+html:not(.is-lite) .scene-lamb .hist{position:absolute;inset:0;pointer-events:none}
+html:not(.is-lite) .scene-lamb .grp{position:absolute;left:var(--gutter);top:40vh;width:32vw}
+html:not(.is-lite) .scene-lamb .item+.item{margin-top:1.1em}
+html:not(.is-lite) .scene-lamb .line{line-height:1.3}
+html:not(.is-lite) .scene-lamb .fig-lite,html:not(.is-lite) .scene-lamb .detail .frame{display:none}
+html:not(.is-lite) .scene-lamb .figs{position:absolute;left:42vw;width:56vw;top:0;height:100vh;pointer-events:none}
+html:not(.is-lite) .scene-lamb .fig{position:absolute;left:50%;top:46%;translate:-50% -50%;width:38vw}
+html:not(.is-lite) .scene-lamb .fig .frame{width:min(38vw,calc(58vh*var(--ar,1.6)));aspect-ratio:var(--ar,1.6);margin:0 auto}
+html:not(.is-lite) .scene-lamb .fig .caption{margin-top:.7em;text-align:center;background:color-mix(in srgb,var(--night) 92%,transparent);padding:.35em .8em}
+html:not(.is-lite) .scene-lamb .details{position:absolute;left:0;right:0;bottom:0;height:0}
+html:not(.is-lite) .scene-lamb .detail{position:absolute;left:0;right:0;bottom:3.5vh;text-align:center;padding:0 var(--gutter)}
+
+/* Lite: static stack */
+html.is-lite .scene-lamb .stage{padding:48px var(--gutter) 64px;display:flex;flex-direction:column;gap:28px}
+html.is-lite .scene-lamb .scrim{display:none}
+html.is-lite .scene-lamb .main{position:relative;width:100%;aspect-ratio:2952/1750}
+html.is-lite .scene-lamb .head{order:-2}
+html.is-lite .scene-lamb .head .display{font-size:var(--step-3)}
+html.is-lite .scene-lamb .facts-strip{order:-1;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px}
+html.is-lite .scene-lamb .figs{display:none}
+html.is-lite .scene-lamb .hist,html.is-lite .scene-lamb .grp{display:flex;flex-direction:column;gap:20px}
+html.is-lite .scene-lamb .item{display:flex;flex-direction:column;gap:12px}
+html.is-lite .scene-lamb .fig-lite .frame{width:100%;aspect-ratio:var(--ar,1.6)}
+html.is-lite .scene-lamb .fig-lite .caption{margin-top:.5em}
+html.is-lite .scene-lamb .details{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:24px}
+html.is-lite .scene-lamb .detail .frame{width:100%;aspect-ratio:4/3}
+html.is-lite .scene-lamb .detail .caption{margin-top:.5em}
