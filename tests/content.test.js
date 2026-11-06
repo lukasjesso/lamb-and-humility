@@ -40,6 +40,7 @@ function checkIntro(name) {
 test('lamb content', () => checkIntro('lamb'));
 test('icon content', () => checkIntro('icon'));
 
+const STYLES = ['rise', 'quote-first', 'portrait', 'timeline', 'banner', 'pull-back', 'dawn', 'crossing']; // scenes/30-connection.js STYLES
 test('connections content', () => {
   const cs = C.connections;
   assert.ok(Array.isArray(cs) && cs.length === 8, `expected exactly 8 connections, got ${cs && cs.length}`);
@@ -56,7 +57,12 @@ test('connections content', () => {
       assert.ok(Array.isArray(s.lines) && s.lines.length >= 1 && s.lines.length <= 6 && s.lines.every(str), `${w}.${side}.lines: 1-6 non-empty strings`);
       if (s.quote) assert.ok(str(s.quote.text) && str(s.quote.cite), `${w}.${side}.quote needs text and cite`);
     }
+    assert.ok(c.takeaway && str(c.takeaway.text) && str(c.takeaway.cite), `${w}.takeaway needs text and cite`);
+    assert.ok(STYLES.includes(c.style), `${w}.style must be one of ${STYLES.join(', ')}`);
+    assert.strictEqual(c.style === 'dawn', c.dawn === true, `${w}: style "dawn" exactly on the dawn: true connection`);
+    assert.ok(!('mode' in c), `${w}: "mode" was renamed "style"`);
   });
+  assert.strictEqual(new Set(cs.map((c) => c.style)).size, 8, 'each connection has its own style');
   assert.strictEqual(cs.filter((c) => c.dawn === true).length, 1, 'exactly one dawn:true');
   assert.strictEqual(cs[6].dawn, true, 'the 7th connection has dawn:true');
   assert.strictEqual(cs[7].day, true, 'the 8th connection has day:true');

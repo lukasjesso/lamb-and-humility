@@ -1,13 +1,29 @@
 // The eight connections, in story order: surrender first, victory last.
-// Each connection: a title card, then the "first" painting with its text, then a swap to the other painting.
+// Each connection: a title card, then the "first" painting with its text, then a swap to the other painting
+// (on the opposite side) with its text, then the takeaway card.
 // crop = how the painting is framed when its panel opens; zoomTo = the detail the scroll zooms into.
 // Crops are PERCENT of each image's natural size. Lamb: 2952 x 1750. Icon: 600 x 828.
 // zone = which chant plays. dawn: true marks the connection where the light floods in from the left.
 // day: true = the page is fully light (dark text).
+// style = how the pictures come and go and how the text is set on the pinned page (scenes/30-connection.js STYLES;
+//   lite ignores it), one each:
+//   rise (pictures rise in from 20vh below and sink out; landscape frames; plain lines) ·
+//   quote-first (pictures fade in place; 4:3 frames; the quotation first and large under a gold hairline, the lines smaller
+//     beneath; a last line ending in ":" introduces the quotation and is set just above it) ·
+//   portrait (tall frames in a gold hairline, a strong scale-up and a slow push-in; a narrow column with generous leading) ·
+//   timeline (pictures slide in from and out to the outer edge; each line a timeline row with its reference as a kicker) ·
+//   banner (pictures drop in from above and lift out; the quotations very large and centred; then "Ἴδε" alone) ·
+//   pull-back (each picture opens tight on its zoomTo and pulls back to its crop; gold rules around the text; a quotation's
+//     reference is its kicker, the speaker beneath; timeline quotations the same) ·
+//   dawn (the swap, the pair and the flood of light; must be the dawn: true connection) ·
+//   crossing (at the swap the two pictures pass in opposite directions: the first slides out toward its own edge, behind,
+//     as the second sweeps in from that edge across the middle; the last quotation large and centred)
+// The takeaway thumbnails are 4:3 boxes around each zoomTo.
+// takeaway = {text, cite}: a short closing note shown after both paintings, tying the connection back to a course resource.
 window.CONTENT = window.CONTENT || {};
 window.CONTENT.connections = [
   {
-    id: "bound", numeral: "I", title: "Bound the Same Way",
+    id: "bound", style: "rise", numeral: "I", title: "Bound the Same Way",
     blurb: "Before a word is said, look at the hooves and the hands.",
     first: "lamb", zone: "lamb",
     lamb: {
@@ -28,10 +44,14 @@ window.CONTENT.connections = [
         "A cord is wound around them, its loose end hanging.",
         "Centuries apart, a Spanish painter and a Greek icon painter bind their subjects the same way."
       ]
+    },
+    takeaway: {
+      text: "Both cords say what Session 14 says in its title: He “took the form of a slave.” The animal is bound by others; the man lets Himself be bound.",
+      cite: "Session 14, Slave, Sin, and Curse (after Philippians 2:7)"
     }
   },
   {
-    id: "slaughter", numeral: "II", title: "A Lamb to the Slaughter",
+    id: "slaughter", style: "quote-first", numeral: "II", title: "A Lamb to the Slaughter",
     blurb: "The icon’s own reading already describes the other painting.",
     first: "icon", zone: "lamb",
     icon: {
@@ -52,10 +72,14 @@ window.CONTENT.connections = [
         "In his own Latin Bible the same verse begins: oblatus est quia ipse voluit.",
         "“He was offered because it was his own will.” (Isaiah 53:7 in the Latin Vulgate; English from the Douay-Rheims)"
       ]
+    },
+    takeaway: {
+      text: "The slide shown just before this icon in class was headed “as a sheep led to slaughter.” Isaiah’s verse was already the course’s caption for both paintings.",
+      cite: "Session 14, slide 26 · Isaiah 53:7"
     }
   },
   {
-    id: "acceptance", numeral: "III", title: "A Face of Acceptance",
+    id: "acceptance", style: "portrait", numeral: "III", title: "A Face of Acceptance",
     blurb: "Neither one is trying to escape.",
     first: "lamb", zone: "lamb",
     lamb: {
@@ -77,10 +101,14 @@ window.CONTENT.connections = [
         "He surrenders, and nothing is taken from Him by force."
       ],
       quote: { text: "No man taketh it from me, but I lay it down of myself. I have power to lay it down, and I have power to take it again.", cite: "John 10:18 (KJV) · Jesus speaking" }
+    },
+    takeaway: {
+      text: "He accepts the cord in order to break it. Session 14 ends on exactly this: slave, sin and curse are “borne or appropriated by Jesus Christ in order to be dispelled and annihilated.”",
+      cite: "Session 14, slide 37"
     }
   },
   {
-    id: "throughline", numeral: "IV", title: "From Isaac’s Ram to the Lamb of God",
+    id: "throughline", style: "timeline", numeral: "IV", title: "From Isaac’s Ram to the Lamb of God",
     blurb: "One rescue, told from the beginning.",
     first: "lamb", zone: "lamb",
     lamb: {
@@ -101,10 +129,14 @@ window.CONTENT.connections = [
         "Paul: “he hath made him to be sin for us, who knew no sin.” (2 Corinthians 5:21)"
       ],
       quote: { text: "the Lamb slain from the foundation of the world", cite: "Revelation 13:8 (KJV)" }
+    },
+    takeaway: {
+      text: "The course reads this arc in both directions: Session 14 finds Christ in Isaiah’s Servant Song; Session 19 finds the Passover lamb in John’s Gospel, “joining the end to the beginning.”",
+      cite: "Session 14, slide 22 · Benedict XVI, Jesus of Nazareth, p. 276"
     }
   },
   {
-    id: "beholds", numeral: "V", title: "Two Beholds",
+    id: "beholds", style: "banner", numeral: "V", title: "Two Beholds",
     blurb: "Two men name Him, and both begin with the same word.",
     first: "lamb", zone: "lamb",
     lamb: {
@@ -125,15 +157,19 @@ window.CONTENT.connections = [
         "In the Greek the KJV was translated from, both sentences open with the same word: Ἴδε, “Behold.”"
       ],
       quote: { text: "Behold the man!", cite: "John 19:5 (KJV) · Pilate speaking" }
+    },
+    takeaway: {
+      text: "Pelikan opens his chapter on the Son of Man with Pilate’s words; the Baptist’s words open the Lamb of God session. Two beholds, two course titles, one person.",
+      cite: "Pelikan, Jesus Through the Centuries, ch. 6 (Session 6) · Session 19"
     }
   },
   {
-    id: "royalty", numeral: "VI", title: "Crowned and Extolled",
+    id: "royalty", style: "pull-back", numeral: "VI", title: "Crowned and Extolled",
     blurb: "The icon wears its kingship. The lamb hides it.",
     first: "icon", zone: "lamb",
     icon: {
       crop: { x: 0, y: 0, w: 100, h: 100 },
-      zoomTo: { x: 10, y: 6, w: 80, h: 56 },
+      zoomTo: { x: 16, y: 9, w: 44, h: 28 },
       lines: [
         "A crown, a robe, a sceptre: every sign of a king, each one given in mockery. (Matthew 27:28–29)",
         "Then Pilate says it plainly: “Behold your King!” (John 19:14)",
@@ -152,10 +188,14 @@ window.CONTENT.connections = [
         "Exalted, as Isaiah promised: not in spite of the slaughter, but through it."
       ],
       quote: { text: "the Lamb shall overcome them: for he is Lord of lords, and King of kings", cite: "Revelation 17:14 (KJV)" }
+    },
+    takeaway: {
+      text: "Session 5 put it plainly: in John, the mockery “ends up affirming” the kingship, and the Cross “becomes the throne of the King of Glory himself.” The thorns and the horns are that kingship, hidden in plain sight.",
+      cite: "Sessions 5–6, King"
     }
   },
   {
-    id: "light", numeral: "VII", title: "Toward the Light",
+    id: "light", style: "dawn", numeral: "VII", title: "Toward the Light",
     blurb: "Both heads fall the same way.",
     first: "lamb", zone: "icon", dawn: true,
     lamb: {
@@ -177,10 +217,14 @@ window.CONTENT.connections = [
       ],
       quote: { text: "I will also give thee for a light to the Gentiles, that thou mayest be my salvation unto the end of the earth.", cite: "Isaiah 49:6 (KJV) · the LORD to His Servant" }
     },
-    finale: { caption: "“God is the LORD, which hath shewed us light.”", cite: "Psalm 118:27 (KJV), the verse that also says “bind the sacrifice with cords”" }
+    finale: { caption: "“God is the LORD, which hath shewed us light.”", cite: "Psalm 118:27 (KJV), the verse that also says “bind the sacrifice with cords”" },
+    takeaway: {
+      text: "Session 14 defined sin as “choosing darkness rather than light.” In their suffering both figures do the opposite: they face it.",
+      cite: "Session 14, slide 32"
+    }
   },
   {
-    id: "shepherd", numeral: "VIII", title: "The Shepherd Who Becomes the Lamb",
+    id: "shepherd", style: "crossing", numeral: "VIII", title: "The Shepherd Who Becomes the Lamb",
     blurb: "The one who leads the flock becomes one of the flock, to save it.",
     first: "icon", zone: "icon", day: true,
     icon: {
@@ -203,6 +247,10 @@ window.CONTENT.connections = [
         "In heaven the Lamb on the throne leads His people home:"
       ],
       quote: { text: "For the Lamb which is in the midst of the throne shall feed them, and shall lead them unto living fountains of waters: and God shall wipe away all tears from their eyes.", cite: "Revelation 7:17 (KJV)" }
+    },
+    takeaway: {
+      text: "Benedict’s last words in the Session 19 reading: “He gave his life for us. He himself is life.” The Shepherd who became the Lamb, and the Lamb who leads: that is the whole of it.",
+      cite: "Benedict XVI, Jesus of Nazareth, p. 286"
     }
   }
 ];

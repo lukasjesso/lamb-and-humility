@@ -116,6 +116,35 @@ init(el, { kit }) {
 ```
 See `scenes/90-demo.js` for a working one (including `kit.dawn`).
 
+### Connections (`scenes/30-connection.js`)
+
+One section (not pinned) holds eight `.conn` blocks (100vh each, each its own `kit.pin`, abutting). Every connection plays the same film:
+title card (kicker, title, blurb) → picture A on one side, its lines and quote on the other, the frame growing and the picture zooming
+from `crop` to `zoomTo` → A leaves and picture B comes in on the opposite side with its text opposite → picture B leaves → the
+**takeaway** (`.kicker` "Takeaway", `takeaway.text` as `.lede`, `takeaway.cite` as `.caption`, the two paintings small at the lower
+corners in matching 4:3 boxes around their `zoomTo`) fades in, holds 0.8 screen and fades before the next title. Sides alternate between connections.
+The content field `style` changes how that same come-and-go is done (one code path, per-style parameters in `STYLES`):
+
+| style | connection | pictures come and go | frame | text |
+|---|---|---|---|---|
+| `rise` | I | rise in from 20vh below, sink out | landscape (at least 4:3) | plain lines (the baseline) |
+| `quote-first` | II | fade in and out in place | 4:3 | the quotation first and large (`--step-2`) under a gold hairline, the lines smaller beneath; a last line ending in ":" introduces it and sits just above it |
+| `portrait` | III | grow in from 0.72; the zoom runs the whole time the picture is up | 4:5 inside a gold hairline | a narrow column with 1.6 leading |
+| `timeline` | IV | slide in from and out to the outer edge (40vw) | default | a timeline: gold marker per line on a hairline, the line's own reference as a kicker above it; the quotation's reference is its kicker |
+| `banner` | V | drop in from 24vh above, lift out | default | centred; the two Beholds at `--step-3`; then "Ἴδε" alone between gold hairlines |
+| `pull-back` | VI | open tight on `zoomTo` and pull back to `crop` | default | gold hairlines above and below the block; each quotation under its reference (the kicker), the speaker beneath |
+| `dawn` | VII | the swap, the pair, the flood, the Psalm held in full light; then the takeaway in daylight | default | plain lines |
+| `crossing` | VIII | at the swap the two pass in opposite directions: A slides out toward its own edge, dipping back and fading behind, while B (opaque, from off-screen) sweeps in from that edge across the middle to its side | default | Revelation 7:17 large and centred under the lamb's lines |
+
+The beats are computed in **screens** first; the pin is exactly that long (fractions via `f(s) = s / S`); `window.__connS` and
+`window.__connBeats` list each connection's length and beats. Pacing (`weights()`): every line is full-bright for at least
+0.33 + chars/2400 screens, a quotation at least 0.5 + chars/700, the last item of a panel included. `data-swap-group` /
+`data-swap-panel` mark A and B in every style except `crossing` (both pictures are up while they pass). The icon (600 px scan) is
+never shown above `CAP` (2.8x): `capped()` widens an icon crop around its centre until the cap holds, at both ends of every zoom.
+Where a quotation's reference became its kicker, the film hides that part of the cite (`.cref`); lite shows the whole cite.
+Lite ignores `style`: each connection is title, blurb, picture A at its `zoomTo`, its text, picture B, its text (VII: the pair and
+the Psalm), the takeaway.
+
 ### Sky, light, audio
 
 - `sky.setLight(t)` (0..1) fades the stars and grows `#dawn` from the left-edge midpoint; sets `--light`, `window.__light`, `html.is-dawned` at t > .999.

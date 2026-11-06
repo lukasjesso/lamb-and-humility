@@ -25,15 +25,69 @@ html.is-pinned .scene-connection{overflow:visible} /* not pinned itself (each .c
 .scene-connection .finale{text-align:center;max-width:56em;padding:0 var(--gutter);opacity:0;visibility:hidden} /* wide enough for the title-size line on two lines */
 .scene-connection .finale .lede{font-size:var(--step-3);line-height:1.12;text-wrap:balance} /* the climax line: title size */
 .scene-connection .finale .caption{margin-top:.6em;font-size:var(--step-0)}
-/* VIII is on the cream page: paintings sit on it with a soft shadow, not a black box */
-.scene-connection .conn.is-day .frame{background:transparent;box-shadow:0 18px 50px rgba(26,22,18,.25)}
+/* VIII is on the cream page (and VII's takeaway in full light): paintings sit on it with a soft shadow, not a black box */
+.scene-connection .conn.is-day .frame,.scene-connection .ctake.is-day .frame{background:transparent;box-shadow:0 18px 50px rgba(26,22,18,.25)}
+
+/* the takeaway: a centred card, the two paintings small at the lower corners (the one shown on the left goes left) */
+.scene-connection .ctake{position:absolute;inset:0;opacity:0;visibility:hidden;pointer-events:none}
+.scene-connection .ccard{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7em;text-align:center;padding:0 var(--gutter)}
+.scene-connection .ccard .lede{max-width:34em;line-height:1.3;text-wrap:balance}
+.scene-connection .th{position:absolute;bottom:7vh}
+.scene-connection .th-left{left:5vw}
+.scene-connection .th-right{right:5vw}
+.scene-connection .th .frame{height:16vh}
+/* decorations that only the pinned film shows */
+.scene-connection .tref,.scene-connection .deco,.scene-connection .ide{display:none}
+
+/* ---- styles (content `style`): the same come-and-go, set differently. Pinned film only; lite is the plain stack ---- */
+/* I rise: the baseline set (plain lines); frames landscape (JS) */
+/* II quote-first: the quotation first and large under a gold hairline, the lines smaller beneath; 4:3 frames (JS) */
+html:not(.is-lite) .scene-connection .st-quote-first blockquote{order:-1;margin:0 0 .35em;padding:0;border:0;font-size:var(--step-2);line-height:1.2}
+html:not(.is-lite) .scene-connection .st-quote-first blockquote::before{content:"";display:block;width:64px;height:1px;background:var(--gold);margin-bottom:.55em}
+html:not(.is-lite) .scene-connection .st-quote-first .ctxt:has(blockquote) .lede{font-size:var(--step-0)}
+/* the line that introduces the quotation (ends in ":") sits above it, and the hairline moves above both */
+html:not(.is-lite) .scene-connection .st-quote-first .lead{order:-2}
+html:not(.is-lite) .scene-connection .st-quote-first .lead::before{content:"";display:block;width:64px;height:1px;background:var(--gold);margin-bottom:.9em}
+html:not(.is-lite) .scene-connection .st-quote-first .ctxt:has(.lead) blockquote::before{display:none}
+/* III portrait: tall 4:5 frames inside a gold hairline; a narrow column beside the picture with generous leading */
+html:not(.is-lite) .scene-connection .st-portrait .pslot .frame{height:min(72vh,calc(40vw / var(--ar)),max(56vh,var(--maxh)))}
+html:not(.is-lite) .scene-connection .st-portrait .pslot .frame::after{content:"";position:absolute;inset:12px;border:1px solid color-mix(in srgb,var(--gold) 70%,transparent);pointer-events:none}
+html:not(.is-lite) .scene-connection .st-portrait .pslot{width:40vw}
+html:not(.is-lite) .scene-connection .st-portrait .pic-left .pslot{left:8vw}
+html:not(.is-lite) .scene-connection .st-portrait .pic-right .pslot{right:8vw}
+html:not(.is-lite) .scene-connection .st-portrait .ctxt{width:29vw;gap:1em}
+html:not(.is-lite) .scene-connection .st-portrait .pic-left .ctxt{right:auto;left:54vw}
+html:not(.is-lite) .scene-connection .st-portrait .pic-right .ctxt{left:auto;right:54vw}
+html:not(.is-lite) .scene-connection .st-portrait .ctxt .reveal{line-height:1.6}
+/* IV timeline: each line a row with a gold marker on a hairline, its reference above it as a kicker (hollow marker: no reference) */
+html:not(.is-lite) .scene-connection .st-timeline .ctxt{gap:0}
+html:not(.is-lite) .scene-connection .st-timeline .trow{position:relative;margin:0;padding:0 0 1.1em 1.6em;border:0}
+html:not(.is-lite) .scene-connection .st-timeline .trow::before{content:"";position:absolute;left:0;top:.6em;bottom:-.6em;width:1px;background:color-mix(in srgb,var(--gold) 50%,transparent)}
+html:not(.is-lite) .scene-connection .st-timeline .trow:last-child::before{display:none}
+html:not(.is-lite) .scene-connection .st-timeline .trow::after{content:"";position:absolute;left:-4px;top:.32em;width:9px;height:9px;border-radius:50%;background:var(--gold)}
+html:not(.is-lite) .scene-connection .st-timeline .trow.noref::after{background:var(--night);border:1px solid var(--gold)}
+html:not(.is-lite) .scene-connection .st-timeline .tref,html:not(.is-lite) .scene-connection .st-pull-back .tref{display:block;font-style:normal;line-height:1.2;margin-bottom:.4em}
+/* a quotation's reference is its kicker in the film, so its cite drops that part (lite keeps the whole cite) */
+html:not(.is-lite) .scene-connection .cref,html:not(.is-lite) .scene-connection .cref-only{display:none}
+/* V banner: the text centred in its column, the two Beholds very large */
+html:not(.is-lite) .scene-connection .st-banner .ctxt{align-items:center;text-align:center}
+html:not(.is-lite) .scene-connection .st-banner blockquote{margin-top:.25em;padding:0;border:0;font-size:var(--step-3);line-height:1.08;text-wrap:balance}
+html:not(.is-lite) .scene-connection .st-banner blockquote cite{margin-top:1em}
+html:not(.is-lite) .scene-connection .ide{display:flex;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;gap:.35em;opacity:0;visibility:hidden;pointer-events:none}
+html:not(.is-lite) .scene-connection .ide .rule{width:min(9vw,150px)}
+html:not(.is-lite) .scene-connection .ide .greek{line-height:1.2}
+/* VI pull-back: gold hairlines above and below the text block; each quotation under its reference */
+html:not(.is-lite) .scene-connection .st-pull-back .deco{display:block;width:100%;background:color-mix(in srgb,var(--gold) 55%,transparent);opacity:0;visibility:hidden}
+html:not(.is-lite) .scene-connection .st-pull-back blockquote{padding:0;border:0}
+/* VIII crossing: Revelation 7:17 large and centred under the lamb's lines */
+html:not(.is-lite) .scene-connection .st-crossing .cp-b blockquote{margin-top:.5em;padding:0;border:0;text-align:center;font-size:var(--step-2);line-height:1.2;text-wrap:balance}
 
 /* Lite: a static block per connection */
 /* lite: column at most 1100px, pictures at most 80vh tall */
 html.is-lite .scene-connection .conn{margin-top:0 !important;max-width:1100px;margin-inline:auto;height:auto;padding:72px var(--gutter);display:flex;flex-direction:column;gap:40px}
-html.is-lite .scene-connection .ctitle,html.is-lite .scene-connection .pslot,html.is-lite .scene-connection .ctxt .reveal,html.is-lite .scene-connection .pairrow,html.is-lite .scene-connection .finale{opacity:1;visibility:visible}
-html.is-lite .scene-connection .ctitle,html.is-lite .scene-connection .cpanel,html.is-lite .scene-connection .cpair,html.is-lite .scene-connection .ctxt,html.is-lite .scene-connection .pslot{position:relative;inset:auto;width:100%}
-html.is-lite .scene-connection .ctitle{padding:0}
+html.is-lite .scene-connection .ctitle,html.is-lite .scene-connection .pslot,html.is-lite .scene-connection .ctxt .reveal,html.is-lite .scene-connection .pairrow,html.is-lite .scene-connection .finale,html.is-lite .scene-connection .ctake{opacity:1;visibility:visible}
+html.is-lite .scene-connection .ctitle,html.is-lite .scene-connection .cpanel,html.is-lite .scene-connection .cpair,html.is-lite .scene-connection .ctxt,html.is-lite .scene-connection .pslot,html.is-lite .scene-connection .ctake,html.is-lite .scene-connection .ccard{position:relative;inset:auto;width:100%}
+html.is-lite .scene-connection .ctitle,html.is-lite .scene-connection .ccard{padding:0}
 html.is-lite .scene-connection .ctitle .display{font-size:var(--step-3)}
 html.is-lite .scene-connection .ctitle .lede{font-size:var(--step-1)}
 html.is-lite .scene-connection .cpanel{display:flex;flex-direction:column;gap:20px}
@@ -41,3 +95,4 @@ html.is-lite .scene-connection .frame{width:100%;max-width:min(100%,var(--lw,960
 html.is-lite .scene-connection .cpair{gap:24px}
 html.is-lite .scene-connection .pairrow{flex-direction:column;width:100%;gap:20px}
 html.is-lite .scene-connection .pairrow .frame{width:100%;height:auto}
+html.is-lite .scene-connection .th{display:none}
