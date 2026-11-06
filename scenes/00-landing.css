@@ -14,7 +14,7 @@ html.is-lite .scene-landing{z-index:auto}
 .scene-landing .begin:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
 .scene-landing .ld-hint{font-size:calc(var(--step--1)*.9);letter-spacing:.06em}
 .scene-landing .ld-cue{position:absolute;top:0;left:50%;width:1px;height:9vh;background:var(--gold);visibility:hidden;opacity:0}
-.scene-landing .ld-course{position:absolute;bottom:2.4vh;left:0;right:0;text-align:center;font-size:calc(var(--step--1)*.85);letter-spacing:.06em}
+.scene-landing .ld-course{position:absolute;bottom:2.4vh;left:0;right:0;text-align:center;font-size:max(14px,calc(var(--step--1)*.85));letter-spacing:.06em}
 
 html.is-lite .scene-landing{height:auto;padding:8vh 5vw 4vh}
 html.is-lite .scene-landing .stage>*{position:static}

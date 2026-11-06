@@ -24,9 +24,9 @@ window.SCENES.push({
     let cueTl = null, outTw = null;
     const resetBegin = () => { if (cueTl) cueTl.kill(); if (outTw) outTw.kill(); cueTl = outTw = null; gsap.set([btn, hint, cue], { clearProps: 'all' }); };
 
-    // Begin: click-driven, not scroll. In lite the button just stays.
+    // Begin: click-driven, not scroll. In lite the button stays and takes the reader to the first painting.
     btn.addEventListener('click', () => {
-      if (kit.lite) return;
+      if (kit.lite) { if (next) next.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; }
       outTw = gsap.to([btn, hint], { autoAlpha: 0, duration: 0.8, ease: 'power1.out' });
       cueTl = gsap.timeline({ delay: 0.5 })
         .set(cue, { autoAlpha: 1 })

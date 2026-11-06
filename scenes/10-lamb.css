@@ -6,6 +6,7 @@
 .scene-lamb .facts-strip .fact+.fact{border-left:0}
 .scene-lamb .facts-strip .fact{padding:.35em 0}
 .scene-lamb .detail .caption{font-size:var(--step-1);color:var(--ink);font-style:italic}
+.scene-lamb .line,.scene-lamb .caption{text-wrap:pretty} /* no one-word last lines ("1614.", "gift.") */
 
 html:not(.is-lite) .scene-lamb .main{position:absolute;inset:0}
 html:not(.is-lite) .scene-lamb .head{position:absolute;left:var(--gutter);top:8vh;width:40vw}

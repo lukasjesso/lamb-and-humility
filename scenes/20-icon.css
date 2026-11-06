@@ -54,5 +54,5 @@ html.is-lite .scene-icon .ic-dets{order:6}
 html.is-lite .scene-icon .ic-p-hymn{order:7}
 html.is-lite .scene-icon .ic-calls,html.is-lite .scene-icon .ic-dets{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:2.4rem 2rem}
 html.is-lite .scene-icon .ic-panel{display:flex;grid-area:auto}
-html.is-lite .scene-icon .ic-crop{display:block;width:100%;aspect-ratio:var(--ar)}
+html.is-lite .scene-icon .ic-crop{display:block;width:100%;max-width:min(100%,var(--lw));margin-inline:auto;aspect-ratio:var(--ar)}
 html.is-lite .scene-icon .ic-thumb{height:auto;width:min(100%,260px)}

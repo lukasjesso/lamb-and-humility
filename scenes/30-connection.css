@@ -16,6 +16,7 @@
 .scene-connection .pic-left .ctxt{right:5vw}
 .scene-connection .pic-right .ctxt{left:5vw}
 .scene-connection .ctxt .reveal{opacity:0;visibility:hidden;line-height:1.28}
+.scene-connection .ctxt .reveal,.scene-connection .ctitle .lede{text-wrap:pretty} /* no one-word last lines ("closed.", "him.") */
 .scene-connection .ctxt blockquote{margin-top:.3em;padding-left:1em;border-left:1px solid var(--gold)}
 .scene-connection .cpair{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5vh;pointer-events:none}
 .scene-connection .pairrow{display:flex;align-items:center;justify-content:center;gap:4vw;opacity:0;visibility:hidden}

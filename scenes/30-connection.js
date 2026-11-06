@@ -6,7 +6,7 @@ window.SCENES = window.SCENES || [];
     icon: { src: 'assets/img/icon-600.jpg', w: 600, h: 828, alt: 'The Greek icon Extreme Humility: Christ crowned with thorns on a gold ground.' }
   };
   var CAP = 2.8; // the icon is 600px wide: never magnify a detail past about 2.8x its natural pixels (lite: LITE_CAP)
-  var LITE_CAP = 2, LITE_MAXW = 640; // lite at desktop width must not stretch the scan across the column
+  var LITE_CAP = 1.5, LITE_MAXW = 640; // lite: the frame is never wider than 1.5x the scan's pixels (phones would otherwise show 2x JPEG blocks)
   var esc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
   var px = function (which, crop) { return { w: crop.w / 100 * IMG[which].w, h: crop.h / 100 * IMG[which].h }; };
 

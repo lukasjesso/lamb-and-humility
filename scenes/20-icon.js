@@ -6,7 +6,8 @@ window.SCENES.push({
   html(C) {
     const I = C.icon, M = I.image, esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
     const ar = c => ((c.w * M.width) / (c.h * M.height)).toFixed(4);
-    const crop = c => `<div class="frame ic-crop" data-crop="${c.x},${c.y},${c.w},${c.h}" style="--ar:${ar(c)}"><img class="art" src="${M.src}" width="${M.width}" height="${M.height}" alt=""></div>`;
+    // --lw: in lite the crop frame is at most 1.5x the scan's pixels wide (the 600 px scan blocks up beyond that)
+    const crop = c => `<div class="frame ic-crop" data-crop="${c.x},${c.y},${c.w},${c.h}" style="--ar:${ar(c)};--lw:${Math.round(1.5 * c.w / 100 * M.width)}px"><img class="art" src="${M.src}" width="${M.width}" height="${M.height}" alt=""></div>`;
     // history groups of at most 3 lines, sizes as even as possible (10 lines -> 3,3,2,2)
     const n = I.history.length, ng = Math.ceil(n / 3), base = Math.floor(n / ng), extra = n % ng;
     let k = 0, hist = '';
